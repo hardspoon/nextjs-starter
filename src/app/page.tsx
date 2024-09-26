@@ -1,15 +1,12 @@
 "use client";
-
-import React from 'react';
-import { Flex, Heading, Text, Button, Background } from '@/once-ui/components';
-import Navbar from '@/components/Navbar';
-import OpenLetter from '@/components/OpenLetter';
-import ParticipationStats from '@/components/ParticipationStats';
-import CallToAction from '@/components/CallToAction';
-import Survey from '@/components/Survey';
-import CommitmentList from '@/components/CommitmentList';
-import Instructions from '@/components/Instructions';
-import Footer from '@/components/Footer';
+import { Flex, Heading, Button, Background, UserMenu } from '@/once-ui/components';
+import Navbar from '@/app/components/Navbar';
+import OpenLetter from '@/app/components/OpenLetter';
+import ParticipationStats from '@/app/components/ParticipationStats';
+import CallToAction from '@/app/components/CallToAction';
+import Survey from '@/app/components/Survey';
+import CommitmentList from '@/app/components/CommitmentList';
+import Instructions from '@/app/components/Instructions';
 
 export default function Home() {
 	const openLetters = [
@@ -17,7 +14,7 @@ export default function Home() {
 			title: "Open Letter to Auto Finance Lenders",
 			content: "Dear Valued Partners in Auto Finance, ...",
 			author: "Industry Collaboration Initiative",
-			ct: <Button href="#join" variant="secondary">Join Now</Button>
+			cta: <Button href="#join" variant="secondary">Join Now</Button>
 		},
 		// Add additional letters as needed
 	];
@@ -60,20 +57,24 @@ export default function Home() {
 	];
 
 	const handleSurveySubmit = (responses: Record<string, any>) => {
-		// Handle survey submission logic
-		console.log('Survey Responses:', responses);
+		try {
+			console.log('Survey Responses:', responses);
+			// Implement the submission logic here
+		} catch (error) {
+			console.error('Error submitting survey:', error);
+		}
 	};
 
 	return (
 		<Flex
 			fillWidth paddingTop="l" paddingX="l"
 			direction="column" alignItems="center" flex={1}>
-				<Background dots={false}/>
-				<Flex
-					position="relative"
-					as="section" overflow="hidden"
-					fillWidth minHeight="0" maxWidth={68}
-					direction="column" alignItems="center" flex={1}>
+					<Background dots={false}/>
+					<Flex
+						position="relative"
+						as="section" overflow="hidden"
+						fillWidth minHeight="0" maxWidth={68}
+						direction="column" alignItems="center" flex={1}>
 					
 					<Navbar
 						links={[
@@ -81,6 +82,7 @@ export default function Home() {
 							{ href: "#about", label: "About" },
 							{ href: "#contact", label: "Contact" },
 						]}
+						userMenu={<UserMenu />} // Add this line
 					/>
 
 					<Flex
@@ -98,7 +100,7 @@ export default function Home() {
 								title={letter.title}
 								content={letter.content}
 								author={letter.author}
-								ct={letter.ct}
+								cta={letter.cta}
 							/>
 						))}
 
@@ -130,14 +132,13 @@ export default function Home() {
 						/>
 					</Flex>
 				</Flex>
-				
-				<Footer
-					links={[
-						{ href: "#privacy", label: "Privacy Policy" },
-						{ href: "#terms", label: "Terms of Service" },
-					]}
-					text="© 2024 Industry Collaboration Initiative. All rights reserved."
-				/>
+				<footer>
+					<ul>
+						<li><a href="#privacy">Privacy Policy</a></li>
+						<li><a href="#terms">Terms of Service</a></li>
+					</ul>
+					<p>© 2024 Industry Collaboration Initiative. All rights reserved.</p>
+				</footer>
 			</Flex>
 	);
 }
